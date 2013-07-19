@@ -7,7 +7,6 @@ Spree::StockLocation.class_eval do
 
   # Wrapper for creating a new stock item respecting the backorderable config and supplier
   def propagate_variant(variant)
-    self.stock_items.create!(variant: variant, backorderable: self.backorderable_default)
     if self.supplier_id.nil? or self.supplier_id == variant.product.supplier_id
       self.stock_items.create!(variant: variant, backorderable: self.backorderable_default)
     else
