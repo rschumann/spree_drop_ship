@@ -107,7 +107,6 @@ Todo
 ----
 
 - Stock Items should automatically be set to backorderable false if the variant doesnt belong to the stock locations supplier.
-- Must allow suppliers to edit their stock location addresses & require it.
 - Return Authorization UI
 - Better documentation
 

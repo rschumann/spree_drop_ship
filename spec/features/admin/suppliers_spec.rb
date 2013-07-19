@@ -95,7 +95,6 @@ feature 'Admin - Suppliers', js: true do
         page.should_not have_link('Configuration')
         page.should_not have_link('Promotions')
         page.should_not have_link('Suppliers')
-        # Since we remove the normal orders tab and add dso tab the first shopping cart icon should contain it.
         within '.icon-truck' do
           page.should have_content('DROP SHIP ORDERS')
         end
