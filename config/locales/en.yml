@@ -16,11 +16,6 @@ en:
               not_responding: 'is invalid, not responding or redirecting to another location'
   spree:
     admin:
-      drop_ship_orders:
-        confirm:
-          success: "Drop ship order %{number} was successfully confirmed!"
-        deliver:
-          success: "Drop ship order %{number} was successfully delivered!"
       drop_ship_settings:
         update:
           success: Drop ship settings successfully updated.

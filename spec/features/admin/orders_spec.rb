@@ -6,7 +6,7 @@ describe 'Admin - Orders', js: true do
     create(:user) # create extra user so admin role isnt assigned to the user we login as
     login_user create(:supplier_user)
     visit spree.admin_orders_path
-    page.should have_content('Unauthorized')
+    page.should have_content('Authorization Failure')
   end
 
   context 'as Admin' do

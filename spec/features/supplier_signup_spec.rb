@@ -60,7 +60,7 @@ feature 'Supplier Signup', js: true do
           page.should_not have_link 'Sign Up To Become A Supplier'
         end
         visit spree.new_supplier_path
-        page.should have_content('Unauthorized')
+        page.should have_content('Authorization Failure')
       end
 
     end

@@ -16,6 +16,7 @@ class Spree::Supplier < ActiveRecord::Base
   end
   has_many   :orders, class_name: 'Spree::DropShipOrder', dependent: :nullify
   has_many   :products
+  has_many   :shipments, through: :stock_locations
   has_many   :stock_locations
   has_many   :users, class_name: Spree.user_class.to_s
   has_many   :variants, through: :products

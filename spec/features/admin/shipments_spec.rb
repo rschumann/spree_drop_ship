@@ -6,14 +6,15 @@ describe 'Admin - Shipments', js: true do
 
     before do
       new_method = create(:shipping_method, :name => "Newer")
-      @order = create(:order_ready_for_drop_ship, state: 'complete').drop_ship_orders.first
-      @supplier = @order.supplier
+      @order = create(:order_ready_for_drop_ship, state: 'complete')
+      @supplier = @order.suppliers.first
       @order.shipments.each do |ship|
         ship.add_shipping_method new_method, true
         ship.save!
       end
       login_user create(:user, supplier: @supplier)
-      visit spree.edit_admin_drop_ship_order_path(@order)
+      @shipment = @order.shipments.where(stock_location_id: @supplier.stock_locations.first.id).first
+      visit spree.edit_admin_shipment_path(@shipment)
     end
 
     context 'edit page' do
@@ -52,8 +53,8 @@ describe 'Admin - Shipments', js: true do
     end
 
     it 'should render unauthorized visiting another suppliers shipment' do
-      visit spree.edit_admin_drop_ship_order_path(create(:drop_ship_order))
-      page.should have_content('Unauthorized')
+      visit spree.edit_admin_shipment_path(create(:shipment))
+      page.should have_content('Authorization Failure')
     end
   end
 

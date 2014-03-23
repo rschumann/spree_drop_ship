@@ -1,16 +1,22 @@
 Spree::Shipment.class_eval do
 
-  def drop_ship_order
-    order.drop_ship_orders.find_by_supplier_id(stock_location.supplier_id)
-  end
+  scope :by_supplier, -> (supplier_id) { joins(:stock_location).where(spree_stock_locations: { supplier_id: supplier_id }) }
+
+  delegate :supplier, to: :stock_location
+  delegate :supplier?, to: :stock_location
 
   private
 
   durably_decorate :after_ship, mode: 'soft', sha: 'd0665a43fd8805f9fd1958b988e35f12f4cee376' do
     original_after_ship
-    if drop_ship_order and drop_ship_order.shipments.size == drop_ship_order.shipments.shipped.size
-      drop_ship_order.complete!
+
+    if supplier?
+      update_commission
     end
+  end
+
+  def update_commission
+    update_column :supplier_commission, ((self.final_price * self.supplier.commission_percentage / 100) + self.supplier.commission_flat_rate)
   end
 
 end

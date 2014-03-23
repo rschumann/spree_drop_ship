@@ -35,38 +35,6 @@ describe Spree::SupplierAbility do
     end
   end
 
-  context 'for DropShipOrder' do
-    let(:resource) { Spree::DropShipOrder }
-
-    it_should_behave_like 'index allowed'
-    it_should_behave_like 'admin granted'
-
-    context 'requested by any user' do
-      let(:ability) { Spree::SupplierAbility.new(create(:user)) }
-      it_should_behave_like 'access denied'
-      it_should_behave_like 'no index allowed'
-      it_should_behave_like 'admin denied'
-    end
-
-    context 'requested by another suppliers user' do
-      let(:resource) { Spree::DropShipOrder.new({supplier: create(:supplier)}, without_protection: true) }
-      it_should_behave_like 'access denied'
-    end
-
-    context 'requested by suppliers user' do
-      let(:resource) { Spree::DropShipOrder.new({supplier: user.supplier}, without_protection: true) }
-
-      it 'should be able to administer updates' do
-        ability.should be_able_to :admin, resource
-        ability.should be_able_to :confirm, resource
-        ability.should_not be_able_to :create, resource
-        ability.should_not be_able_to :destroy, resource
-        ability.should be_able_to :read, resource
-        ability.should be_able_to :update, resource
-      end
-    end
-  end
-
   context 'for Image' do
     let(:resource) { Spree::Image }
 

@@ -5,7 +5,7 @@ describe "Stock Management" do
   before do
     @user = create(:supplier_user)
     login_user @user
-    visit spree.admin_drop_ship_orders_path
+    visit spree.admin_shipments_path
   end
 
   context "as supplier user" do

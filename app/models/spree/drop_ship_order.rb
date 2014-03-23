@@ -12,15 +12,7 @@ class Spree::DropShipOrder < ActiveRecord::Base
   has_many :inventory_units, through: :line_items
   has_many :return_authorizations, through: :order
   has_many :shipment_adjustments, through: :shipments, source: :adjustments
-  has_many :shipments, through: :inventory_units
-  # order.shipments.includes(:stock_location).where('spree_stock_locations.supplier_id = ?', self.supplier_id).references(:stock_location)
-  # has_many :shipments,
-  #   -> { joins(:stock_location => :supplier) },
-  #   through: :order do
-  #     def states
-  #       pluck(:state).uniq
-  #     end
-  #   end
+  # has_many :shipments, through: :inventory_units
 
   has_many :stock_locations, through: :supplier
   has_many :users, class_name: Spree.user_class.to_s, through: :supplier
@@ -36,8 +28,6 @@ class Spree::DropShipOrder < ActiveRecord::Base
 
   #==========================================
   # Callbacks
-
-  before_save :update_totals
 
   #==========================================
   # State Machine
@@ -128,13 +118,13 @@ class Spree::DropShipOrder < ActiveRecord::Base
     return 'partial'
   end
 
-  # def shipments
-  #   order.
-  #     shipments.
-  #     includes(:stock_location).
-  #     where(spree_stock_locations: {supplier_id: self.supplier_id}).
-  #     references(:stock_location)
-  # end
+  def shipments
+    order.
+      shipments.
+      includes(:stock_location).
+      where(spree_stock_locations: {supplier_id: self.supplier_id}).
+      references(:stock_location)
+  end
 
   delegate :special_instructions, to: :order
 
@@ -164,44 +154,6 @@ class Spree::DropShipOrder < ActiveRecord::Base
 
     def update_commission
       self.commission = (self.total * self.supplier.commission_percentage / 100) + self.supplier.commission_flat_rate
-    end
-
-    # Updates the drop ship order's total by getting the shipment totals.
-    def update_totals
-      # puts self.line_items.inspect
-      # self.line_items.each do |li|
-      #   puts li.final_amount.to_f
-      # end
-      # puts self.shipments.inspect
-      # self.shipments.each do |shipment|
-      #   puts shipment.cost.to_f
-      #   puts shipment.promo_total.to_f
-      #   puts shipment.discounted_cost.to_f
-      #   puts shipment.item_cost.to_f
-      #   puts shipment.final_price.to_f
-      #   puts shipment.tax_total.to_f
-      #   puts shipment.shipping_rates.inspect
-      #   shipment.shipping_rates.each do |rate|
-      #     puts rate.inspect
-      #     puts rate.cost.to_f
-      #   end
-      #   puts 'selected rate'
-      #   puts shipment.selected_shipping_rate.inspect
-      #   puts shipment.selected_shipping_rate.cost.to_f
-      # end
-      # self.shipments.first.refresh_rates
-      # self.shipments.reload.first.shipping_rates.each do |rate|
-      #   puts rate.inspect
-      #   puts rate.cost.to_f
-      # end
-      # puts "refresh rates: #{self.shipments.first.selected_shipping_rate.cost.to_f}"
-      # puts "shipments: #{self.shipments.map(&:final_price).sum.to_f} - line_items: #{self.line_items.map(&:final_amount).sum.to_f}"
-
-      self.additional_tax_total = self.line_items.sum(:additional_tax_total) + self.shipments.sum(:additional_tax_total)
-      self.included_tax_total   = self.line_items.sum(:included_tax_total)   + self.shipments.sum(:included_tax_total)
-      self.total                = self.shipments.map(&:final_price).sum      + self.line_items.map(&:final_amount).sum
-      update_commission
-      puts "Totals: #{self.inspect} - #{self.additional_tax_total.to_f} - #{self.included_tax_total.to_f} - #{self.total.to_f}"
     end
 
 end
