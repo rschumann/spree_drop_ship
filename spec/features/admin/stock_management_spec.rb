@@ -4,6 +4,7 @@ describe "Stock Management" do
 
   before do
     @user = create(:supplier_user)
+    @user.supplier.reload.stock_locations.update_all backorderable_default: false # True database default is false.
     login_user @user
     visit spree.admin_shipments_path
   end

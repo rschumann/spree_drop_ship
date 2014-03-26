@@ -21,7 +21,6 @@ require 'spree/testing_support/authorization_helpers'
 require 'spree/testing_support/capybara_ext'
 require 'spree/testing_support/controller_requests'
 require 'spree/testing_support/factories'
-require 'spree/testing_support/flash'
 require 'spree/testing_support/preferences'
 require 'spree/testing_support/url_helpers'
 
@@ -31,7 +30,6 @@ RSpec.configure do |config|
   config.include FactoryGirl::Syntax::Methods
   config.include IntegrationHelpers
   config.include Spree::TestingSupport::ControllerRequests
-  config.include Spree::TestingSupport::Flash
   config.include Spree::TestingSupport::Preferences
   config.include Spree::TestingSupport::UrlHelpers
 

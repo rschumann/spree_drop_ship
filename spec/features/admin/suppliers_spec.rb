@@ -82,16 +82,14 @@ feature 'Admin - Suppliers', js: true do
 
     scenario 'should only see tabs they have access to' do
       within '#admin-menu' do
-        page.should_not have_link('OVERVIEW')
-        page.should have_link('PRODUCTS')
-        page.should_not have_link('REPORTS')
-        page.should_not have_link('CONFIGURATION')
-        page.should_not have_link('PROMOTIONS')
-        page.should_not have_link('SUPPLIERS')
-        # Since we remove the normal orders tab and add dso tab the first shopping cart icon should contain it.
-        within '.icon-truck' do
-          page.should have_content('SHIPMENTS')
-        end
+        page.should_not have_link('Overview')
+        page.should have_link('Products')
+        page.should_not have_link('Reports')
+        page.should_not have_link('Configuration')
+        page.should_not have_link('Promotions')
+        page.should_not have_link('Suppliers')
+        page.should have_link('Shipments')
+
       end
     end
 

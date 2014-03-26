@@ -2,14 +2,14 @@
 Gem::Specification.new do |s|
   s.platform    = Gem::Platform::RUBY
   s.name        = 'spree_drop_ship'
-  s.version     = '2.0.0.beta'
+  s.version     = '2.2.0.beta'
   s.summary     = 'Spree Drop Shipping Extension'
   s.description = 'Adds drop shipping functionality to Spree stores.'
   s.required_ruby_version = '>= 1.9.3'
 
   s.author    = 'Jeff Dutil'
-  s.email     = 'jdutil@burlingtonwebapps.com'
-  s.homepage  = 'http://github.com/jdutil/spree_drop_ship'
+  s.email     = 'JDutil@BurlingtonWebApps.com'
+  s.homepage  = 'http://github.com/JDutil/spree_drop_ship'
 
   s.files        = `git ls-files`.split("\n")
   s.test_files   = `git ls-files -- {test,spec,features}/*`.split("\n")

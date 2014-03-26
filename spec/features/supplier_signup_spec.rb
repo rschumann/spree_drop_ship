@@ -54,6 +54,10 @@ feature 'Supplier Signup', js: true do
 
     context 'w/ DropShipConfig[:allow_signup] == false (the default)' do
 
+      before do
+        SpreeDropShip::Config.set(allow_signup: false)
+      end
+
       scenario 'should not be able to create new supplier' do
         visit spree.account_path
         within '#user-info' do
