@@ -1,11 +1,5 @@
 FactoryGirl.define do
 
-  factory :drop_ship_order, :class => Spree::DropShipOrder do
-    supplier
-    order { create(:completed_order_for_drop_ship_with_totals) }
-    commission 0
-  end
-
   factory :order_for_drop_ship, parent: :order do
     bill_address
     ship_address
@@ -26,8 +20,6 @@ FactoryGirl.define do
       order.shipments.reload
 
       order.update!
-
-      create(:drop_ship_order, line_items: order.line_items, order: order, supplier: supplier)
     end
 
     factory :completed_order_for_drop_ship_with_totals do

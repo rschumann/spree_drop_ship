@@ -141,15 +141,30 @@ describe Spree::SupplierAbility do
       it_should_behave_like 'access denied'
       it_should_behave_like 'no index allowed'
       it_should_behave_like 'admin denied'
+      it { ability.should_not be_able_to :ready, resource }
+      it { ability.should_not be_able_to :ship, resource }
     end
 
     context 'requested by suppliers user' do
-      let(:resource) { Spree::Shipment.new({stock_location: create(:stock_location, supplier: user.supplier)}, without_protection: true) }
-      it_should_behave_like 'access granted'
-      it_should_behave_like 'index allowed'
-      it_should_behave_like 'admin granted'
-      it { ability.should be_able_to :ready, resource }
-      it { ability.should be_able_to :ship, resource }
+      context 'when order is complete' do
+        let(:resource) {
+          Spree::Shipment.new({order: create(:completed_order_with_totals), stock_location: create(:stock_location, supplier: user.supplier)}, without_protection: true)
+        }
+        it_should_behave_like 'access granted'
+        it_should_behave_like 'index allowed'
+        it_should_behave_like 'admin granted'
+        it { ability.should be_able_to :ready, resource }
+        it { ability.should be_able_to :ship, resource }
+      end
+
+      context 'when order is incomplete' do
+        let(:resource) { Spree::Shipment.new({stock_location: create(:stock_location, supplier: user.supplier)}, without_protection: true) }
+        it_should_behave_like 'access denied'
+        it_should_behave_like 'index allowed'
+        it_should_behave_like 'admin granted'
+        it { ability.should_not be_able_to :ready, resource }
+        it { ability.should_not be_able_to :ship, resource }
+      end
     end
   end
 

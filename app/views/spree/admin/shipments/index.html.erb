@@ -22,38 +22,23 @@
             <%= f.text_field :created_at_lt, :class => 'datepicker datepicker-to', :value => params[:q][:created_at_lt], :placeholder => Spree.t(:stop) %>
           </div>
         </div>
+      </div>
 
+      <div class="four columns">
         <div class="field">
-          <%= label_tag nil, Spree.t(:status) %>
+          <%= label_tag nil, Spree.t(:shipment_number) %>
+          <%= f.text_field :number_cont %>
+        </div>
+      </div>
+
+      <div class="four columns">
+        <div class="field">
+          <%= label_tag nil, Spree.t(:status) %><br/>
           <%= f.select :state_eq, Spree::Shipment.state_machines[:state].states.collect {|s| [Spree.t("shipment_state.#{s.name}"), s.value]}, {:include_blank => true}, :class => 'select2' %>
         </div>
       </div>
 
-      <div class="four columns">
-        <div class="field">
-          <%= label_tag nil, Spree.t(:first_name_begins_with) %>
-          <%= f.text_field :order_bill_address_firstname_start, :size => 25 %>
-        </div>
-        <div class="field">
-          <%= label_tag nil, Spree.t(:last_name_begins_with) %>
-          <%= f.text_field :order_bill_address_lastname_start, :size => 25%>
-        </div>
-      </div>
-
-      <div class="four columns">
-        <div class="field">
-          <%= label_tag nil, Spree.t(:order_number) %>
-          <%= f.text_field :id_cont %>
-        </div>
-      </div>
-
       <div class="omega four columns">
-        <div class="field checkbox">
-          <label>
-            <%= f.check_box :completed_at_null, {:checked => @show_only_incomplete}, '1', '' %>
-            <%= Spree.t(:show_only_incomplete_orders) %>
-          </label>
-        </div>
       </div>
 
       <div class="clearfix"></div>

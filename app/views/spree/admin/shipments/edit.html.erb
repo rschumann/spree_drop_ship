@@ -18,3 +18,7 @@
     </fieldset>
   </div>
 <% end %>
+
+<div data-hook="admin_shipment_form_fields">
+  <%= render :partial => "spree/admin/orders/shipment", locals: { order: @shipment.order, shipment: @shipment } %>
+</div>
